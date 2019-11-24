@@ -12,8 +12,8 @@ module Interpreter where
     where
       ra = eval a env
       rb = eval b env
-      eeval (Clojure str body (Env xx)) =
-        trace (printf "INS: %s=%s" str (show rb)) eval body (envInsert env str rb)
+      eeval (Clojure str body clEnv) =
+        trace (printf "INS: %s=%s" str (show rb)) eval body (envInsert clEnv str rb)
       eeval (Error a) = Error a
       eeval a = (Error $ printf "Unexpected in eeval: %s" (show a))
 
