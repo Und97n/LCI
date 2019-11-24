@@ -4,6 +4,7 @@ import Parser
 import Interpreter
 import Control.Monad (unless)
 import Data.Maybe
+import System.IO
 
 defaultEnv = Env [
                ("0", seval "$f x.x"),
@@ -20,7 +21,9 @@ zeval :: String -> Object
 zeval str = eval (fromMaybe (Error "can't parse") $ parse str) defaultEnv
 
 read' :: IO String
-read' = getLine
+read' = putStr "> "
+     >> hFlush stdout
+     >> getLine
 
 print' :: String -> IO ()
 print' = putStrLn
