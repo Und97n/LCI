@@ -16,7 +16,7 @@ defaultEnv = Env [
            where
              seval str = eval (fromMaybe (Error "can't parse") $ parse str) $ Env []
 
-zeval :: String -> Function
+zeval :: String -> Object
 zeval str = eval (fromMaybe (Error "can't parse") $ parse str) defaultEnv
 
 read' :: IO String

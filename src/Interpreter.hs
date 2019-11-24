@@ -1,20 +1,22 @@
 module Interpreter where
-  import Base
+import Base
   
-  import Text.Printf
-  import Debug.Trace
+import Text.Printf
+import Debug.Trace
 
-  eval :: Function -> Env -> Function
-  eval (Lambda a b) env = (Clojure a b env)
-  eval (Variable str) env = envLookup env str
-  eval (Application a b) env =
-    trace (printf "\nA::\t%s\n\t%s\n" (show ra) (show rb)) eeval ra
-    where
-      ra = eval a env
-      rb = eval b env
-      eeval (Clojure str body clEnv) =
-        trace (printf "INS: %s=%s" str (show rb)) eval body (envInsert clEnv str rb)
-      eeval (Error a) = Error a
-      eeval a = (Error $ printf "Unexpected in eeval: %s" (show a))
+applyF :: Object -> Object -> Object
 
-  eval a env = a
+applyF (Function var body clEnv) arg =
+  trace (printf "INS: %s=%s" var (show arg))
+  eval body (envInsert clEnv str rb)
+applyF a b = Error "applying not a function: %s"
+
+eval :: Object -> Env -> Object
+eval (Lambda a b) env = (Function a b env)
+eval (Variable str) env = envLookup env str
+
+eval (Application a b) env =
+  trace (printf "\nA::\t%s\n\t%s\n" (show ra) (show rb))
+  applyF (eval a) (eval b)
+
+eval a env = a
