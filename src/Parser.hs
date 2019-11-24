@@ -44,6 +44,6 @@ parseProgram = do
 
 parse :: String -> (Maybe Object)
 
-parse str = if (null lst) then Nothing else Just $ head lst
-  where
-    lst = [ x | (x,"") <- readP_to_S parseProgram str]
+parse str =
+  let lst = [ x | (x,"") <- readP_to_S parseProgram str]
+  in if (null lst) then Nothing else Just $ head lst
