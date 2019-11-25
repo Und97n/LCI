@@ -20,16 +20,27 @@ defaultEnv = Env [
                ("3", seval "$f x. f (f (f x))"),
                ("4", seval "$f x. f (f (f (f x)))"),
                ("iszero", seval "$n.(n ($a x y.y) ($x y.x))"),
+               ("succ", seval "$n f x. f (n f x)"),
+               ("pred", seval "$n f x. n ($ g h. h (g f)) ($u.x) ($u.u)"),
                ("plus", seval "$m n.($f x. m f (n f x))"),
                ("mult", seval "$m n.($f. m (n f))"),
                ("pow", seval "$b e. e b"),
+               
                ("i", seval "$x.x"),
                ("true", seval "$x y.x"),
                ("false", seval "$x y.y"),
                ("if", seval "$p a b.p a b"),
-               ("succ", seval "$n f x. f (n f x)"),
+               ("and", seval "$p q. p q p"),
+               ("or", seval "$p q. p p q"),
+               ("not", seval "$p.p ($x y.y) ($x y.x)"),
+               ("null", seval "$p.p ($x y a b. b)"),
+               
+               ("cons", seval "$x y f.f x y"),
+               ("car", seval "$p.p ($x y.x)"),
+               ("cdr", seval "$p.p ($x y.y)"),
+               ("nil", seval "$f x y.x"),
+               
                ("fixed", seval "$f.(($x.f (x x)) ($x.f (x x)))"),
-               ("pred", seval "$n f x. n ($ g h. h (g f)) ($u.x) ($u.u)"),
                ("printnum", numberPrinterO)]
            where
              seval str = eval (fromMaybe (Error "can't parse") $ parse str) $ Env []
